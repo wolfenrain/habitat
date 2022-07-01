@@ -6,6 +6,6 @@ class Elevation extends Attribute {
       : super(
           name: 'elevation',
           value: NoiseValue(const NoiseSettings(octaves: 32)) -
-              SquareGradientValue(size: Vector2.all(512)),
+              SquareGradientValue(size: Vector2.all(256)),
         );
 }

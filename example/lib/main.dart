@@ -33,6 +33,9 @@ class NoiseMapComponent extends PositionComponent {
       Dune(),
       GrassLand(),
       Forest(),
+      LowerMountain(),
+      HigherMountain(),
+      MountainTop(),
     },
     fallbackBiome: const DeepOcean(),
   );
@@ -69,6 +72,12 @@ extension on Biome {
         return const Color(0xFF4CAF50);
       case 'forest':
         return const Color(0xFF3c6114);
+      case 'lower_mountain':
+        return const Color(0xFF616161);
+      case 'higher_mountain':
+        return const Color(0xFF9E9E9E);
+      case 'mountain_top':
+        return const Color(0xFFFFFFFF);
       default:
         throw Exception('Unknown biome $name');
     }

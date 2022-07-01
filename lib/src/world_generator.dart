@@ -15,8 +15,7 @@ class WorldGenerator {
 
   Biome getBiome(int x, int y) {
     final terrainConditions = TerrainConditions({
-      for (final attribute in attributes)
-        attribute: attribute.value.get(x, y).clamp(0, 1),
+      for (final attribute in attributes) attribute: attribute.value.get(x, y),
     });
 
     for (final biome in biomes) {

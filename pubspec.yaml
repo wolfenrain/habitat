@@ -1,0 +1,10 @@
+name: noise_map_poc
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+dependencies: {vector_math: ^2.1.2}

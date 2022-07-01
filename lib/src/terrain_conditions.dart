@@ -19,12 +19,8 @@ class TerrainConditions {
 
   @override
   String toString() {
-    return [
-      'TerrainConditions {',
-      ..._attributeValueMap.entries.map((entry) {
-        return '${entry.key.toString()}: ${entry.value}';
-      }),
-      '}'
-    ].join('\n');
+    return 'TerrainConditions: ${_attributeValueMap.entries.map((entry) {
+      return '${entry.key.toString()}=${entry.value}';
+    }).join(', ')}';
   }
 }

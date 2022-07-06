@@ -1,6 +1,6 @@
 name: habitat
-description: A new Flutter project.
-version: 0.1.0
+description: Generate any kind of world by defining biomes and attributes.
+version: 0.1.0-dev.1
 
 environment:
   sdk: ">=2.17.3 <3.0.0"

@@ -1,8 +1,8 @@
 import 'package:example/attributes/attributes.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 class GrassLand extends Biome {
-  const GrassLand() : super(name: 'grass_land');
+  GrassLand() : super(name: 'grass_land');
 
   final _elevation = const BiomeAttribute<Elevation>(
     range: Range(min: 0.3, max: 0.65),

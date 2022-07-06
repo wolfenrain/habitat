@@ -1,4 +1,4 @@
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 /// {@template biome}
 /// Describes a biome.
@@ -11,6 +11,6 @@ abstract class Biome {
   final String name;
 
   /// Checks if the given [conditions] for a cell are viable for the biome
-  /// based on the [attributes] of the biome.
+  /// based on the [Attribute]s of the biome.
   bool isViable(TerrainConditions conditions);
 }

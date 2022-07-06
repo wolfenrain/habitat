@@ -1,8 +1,8 @@
 import 'package:example/attributes/attributes.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 class Forest extends Biome {
-  const Forest() : super(name: 'forest');
+  Forest() : super(name: 'forest');
 
   final _elevation = const BiomeAttribute<Elevation>(
     range: Range(min: 0.3, max: 0.65),

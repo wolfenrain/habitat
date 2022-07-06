@@ -1,4 +1,6 @@
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'dart:collection';
+
+import 'package:habitat/habitat.dart';
 
 /// {@template terrain_conditions}
 /// Describes a set of conditions that must be met for a cell to be valid.
@@ -7,9 +9,10 @@ class TerrainConditions {
   /// {@macro terrain_conditions}
   const TerrainConditions(this._attributeValueMap);
 
-  final Map<Attribute, double> _attributeValueMap;
+  final UnmodifiableMapView<Attribute, double> _attributeValueMap;
 
-  /// Returns whether the given [attribute] is valid for the given [value].
+  /// Check if the given [attribute] satisfies the value in the
+  /// [_attributeValueMap].
   bool satisfies<T extends Attribute>(BiomeAttribute<T> attribute) {
     final key = _attributeValueMap.keys.whereType<T>().first;
     final value = _attributeValueMap[key];

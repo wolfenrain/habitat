@@ -1,8 +1,8 @@
 import 'package:example/attributes/attributes.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 class Dune extends Biome {
-  const Dune() : super(name: 'dune');
+  Dune() : super(name: 'dune');
 
   final _elevation = const BiomeAttribute<Elevation>(
     range: Range(min: 0.25, max: 0.3),

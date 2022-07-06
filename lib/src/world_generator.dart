@@ -1,4 +1,6 @@
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'dart:collection';
+
+import 'package:habitat/habitat.dart';
 
 /// {@template world_generator}
 /// Procedurally generates a world based on a set of [attributes] and [biomes].
@@ -22,9 +24,12 @@ class WorldGenerator {
 
   /// Returns the conditions for the given [x] and [y] coordinates.
   TerrainConditions getConditions(int x, int y) {
-    return TerrainConditions({
-      for (final attribute in attributes) attribute: attribute.value.get(x, y),
-    });
+    return TerrainConditions(
+      UnmodifiableMapView({
+        for (final attribute in attributes)
+          attribute: attribute.value.get(x, y),
+      }),
+    );
   }
 
   /// Returns the biome for the given [x] and [y] coordinates. Based on the
@@ -35,11 +40,14 @@ class WorldGenerator {
   Biome getBiome(int x, int y) {
     final conditions = getConditions(x, y);
 
-    return biomes.firstWhere((biome) => biome.isViable(conditions), orElse: () {
-      if (fallbackBiome != null) {
-        return fallbackBiome!;
-      }
-      throw Exception('No biome found for $conditions');
-    });
+    return biomes.firstWhere(
+      (biome) => biome.isViable(conditions),
+      orElse: () {
+        if (fallbackBiome != null) {
+          return fallbackBiome!;
+        }
+        throw Exception('No biome found for $conditions');
+      },
+    );
   }
 }

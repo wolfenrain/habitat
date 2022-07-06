@@ -1,59 +1,110 @@
-import 'package:example/attributes/elevation.dart';
-import 'package:example/attributes/moisture.dart';
+import 'dart:ui' as ui;
+
+import 'package:binarize/binarize.dart';
+import 'package:example/attributes/attributes.dart';
 import 'package:example/biomes/biomes.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
-void main() {
-  runApp(GameWidget(game: NoiseMapPoc()));
-}
-
-final _mapSize = Vector2.all(512);
-
-class NoiseMapPoc extends FlameGame {
+class HabitatExample extends FlameGame {
   @override
   Future<void> onLoad() async {
-    camera.viewport = FixedResolutionViewport(_mapSize);
+    camera.viewport = FixedResolutionViewport(_size);
 
-    await add(NoiseMapComponent());
+    await add(
+      WorldComponent(
+        WorldGenerator(
+          attributes: {ElevationInfinite(), Moisture()},
+          biomes: {
+            DeepOcean(),
+            Ocean(),
+            Beach(),
+            Dune(),
+            GrassLand(),
+            Forest(),
+            LowerMountain(),
+            HigherMountain(),
+            MountainTop(),
+          },
+          fallbackBiome: DeepOcean(),
+        ),
+      ),
+    );
+  }
+
+  void replace(WorldGenerator generator, {bool move = false}) {
+    firstChild<WorldComponent>()?.removeFromParent();
+    add(WorldComponent(generator, move: move));
   }
 }
 
-class NoiseMapComponent extends PositionComponent {
-  NoiseMapComponent();
+class WorldComponent extends Component {
+  WorldComponent(this.generator, {this.move = true});
 
-  final WorldGenerator generator = WorldGenerator(
-    attributes: {Elevation(), Moisture()},
-    biomes: const {
-      DeepOcean(),
-      Ocean(),
-      Beach(),
-      Dune(),
-      GrassLand(),
-      Forest(),
-      LowerMountain(),
-      HigherMountain(),
-      MountainTop(),
-    },
-    fallbackBiome: const DeepOcean(),
-  );
+  final WorldGenerator generator;
+
+  final bool move;
+
+  ui.Image? dataImage;
+  final Vector2 offset = Vector2.zero();
+
+  @override
+  Future<void>? onLoad() {
+    generateDataImage();
+    return null;
+  }
 
   @override
   void render(Canvas canvas) {
-    for (var x = 0; x < _mapSize.x; x++) {
-      for (var y = 0; y < _mapSize.y; y++) {
-        final biome = generator.getBiome(x, y);
+    if (dataImage == null) {
+      return;
+    }
+    canvas.drawImage(dataImage!, Offset.zero, Paint());
+    super.render(canvas);
+  }
 
-        canvas.drawRect(
-          Rect.fromLTWH(x.toDouble(), y.toDouble(), 1, 1),
-          Paint()
-            ..color = biome.color
-            ..isAntiAlias = false,
+  bool generating = false;
+
+  @override
+  void update(double dt) {
+    if (move && !generating) {
+      offset.add(Vector2.all(10) * dt);
+      generateDataImage();
+    }
+  }
+
+  void generateDataImage() {
+    generating = true;
+    final payload = Payload.write();
+
+    for (var y = 0; y < _size.y; y++) {
+      for (var x = 0; x < _size.y; x++) {
+        final biome = generator.getBiome(
+          x + offset.x.toInt(),
+          y + offset.y.toInt(),
         );
+
+        final color = biome.color;
+        payload
+          ..set(uint8, color.red)
+          ..set(uint8, color.green)
+          ..set(uint8, color.blue)
+          ..set(uint8, color.alpha);
       }
     }
+
+    return ui.decodeImageFromPixels(
+      binarize(payload),
+      _size.x.toInt(),
+      _size.y.toInt(),
+      ui.PixelFormat.rgba8888,
+      (image) {
+        dataImage = image;
+        generating = false;
+      },
+    );
   }
 }
 
@@ -82,4 +133,78 @@ extension on Biome {
         throw Exception('Unknown biome $name');
     }
   }
+}
+
+final _size = Vector2.all(256);
+
+void main() {
+  final game = HabitatExample();
+  runApp(
+    MaterialApp(
+      home: Column(
+        children: [
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(width: 8),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    game.replace(
+                      WorldGenerator(
+                        attributes: {Elevation(), Moisture()},
+                        biomes: {
+                          DeepOcean(),
+                          Ocean(),
+                          Beach(),
+                          Dune(),
+                          GrassLand(),
+                          Forest(),
+                          LowerMountain(),
+                          HigherMountain(),
+                          MountainTop(),
+                        },
+                        fallbackBiome: DeepOcean(),
+                      ),
+                    );
+                  },
+                  child: const Text('Single island'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    game.replace(
+                      WorldGenerator(
+                        attributes: {ElevationInfinite(), Moisture()},
+                        biomes: {
+                          DeepOcean(),
+                          Ocean(),
+                          Beach(),
+                          Dune(),
+                          GrassLand(),
+                          Forest(),
+                          LowerMountain(),
+                          HigherMountain(),
+                          MountainTop(),
+                        },
+                        fallbackBiome: DeepOcean(),
+                      ),
+                      move: true,
+                    );
+                  },
+                  child: const Text('Infinite world with islands'),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Expanded(child: GameWidget(game: game)),
+        ],
+      ),
+    ),
+  );
 }

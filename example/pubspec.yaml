@@ -7,13 +7,14 @@ environment:
   sdk: ">=2.17.3 <3.0.0"
 
 dependencies:
+  binarize: ^1.0.1
+  flame: ^1.2.0
   flutter:
     sdk: flutter
-  flame: ^1.2.0
-  noise_map_poc:
+  habitat:
     path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  very_good_analysis: ^3.0.1

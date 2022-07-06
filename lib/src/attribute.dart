@@ -1,4 +1,4 @@
-import 'package:noise_map_poc/src/values/value.dart';
+import 'package:habitat/src/values/value.dart';
 
 /// {@template attribute}
 /// An attribute that provides values for a cell.

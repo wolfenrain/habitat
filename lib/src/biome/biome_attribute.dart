@@ -1,4 +1,4 @@
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 /// {@template biome_attribute}
 /// Describes an attribute for a biome by applying the [range] to the values

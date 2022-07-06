@@ -1,8 +1,8 @@
 import 'package:example/attributes/attributes.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 class MountainTop extends Biome {
-  const MountainTop() : super(name: 'mountain_top');
+  MountainTop() : super(name: 'mountain_top');
 
   final _elevation = const BiomeAttribute<Elevation>(
     range: Range(min: 0.8),

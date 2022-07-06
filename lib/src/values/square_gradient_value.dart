@@ -1,10 +1,14 @@
 import 'dart:math';
 
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+/// {@template square_gradient_value}
+/// A [Value] class that returns a value based on a square gradient.
+/// {@endtemplate}
 class SquareGradientValue extends Value {
-  SquareGradientValue({
+  /// {@macro square_gradient_value}
+  const SquareGradientValue({
     required Vector2 size,
     double density = 0,
   })  : _size = size,

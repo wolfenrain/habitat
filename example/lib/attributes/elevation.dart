@@ -1,11 +1,25 @@
+import 'package:example/values/scatter_value.dart';
 import 'package:flame/extensions.dart';
-import 'package:noise_map_poc/noise_map_poc.dart';
+import 'package:habitat/habitat.dart';
 
 class Elevation extends Attribute {
-  Elevation()
+  Elevation({Value? value})
       : super(
           name: 'elevation',
-          value: NoiseValue(const NoiseSettings(octaves: 32)) -
+          value: value ??
+              SimplexNoiseValue(octaves: 32).subtract(
+                SquareGradientValue(size: Vector2.all(256)),
+              ),
+        );
+}
+
+class ElevationInfinite extends Elevation {
+  ElevationInfinite()
+      : super(
+          value: SimplexNoiseValue(octaves: 32).subtract(
+            ScatterValue(scatter: 256).on(
               SquareGradientValue(size: Vector2.all(256)),
+            ),
+          ),
         );
 }

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  binarize:
+    dependency: "direct main"
+    description:
+      name: binarize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -76,25 +83,18 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  lints:
-    dependency: transitive
+  habitat:
+    dependency: "direct main"
     description:
-      name: lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
+      path: ".."
+      relative: true
+    source: path
+    version: "0.1.0"
   matcher:
     dependency: transitive
     description:
@@ -116,13 +116,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
-  noise_map_poc:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "1.0.0+1"
   ordered_set:
     dependency: transitive
     description:
@@ -191,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  very_good_analysis:
+    dependency: "direct dev"
+    description:
+      name: very_good_analysis
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
 sdks:
   dart: ">=2.17.3 <3.0.0"
   flutter: ">=2.10.0"

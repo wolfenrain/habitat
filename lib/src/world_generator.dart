@@ -27,7 +27,7 @@ class WorldGenerator {
     return TerrainConditions(
       UnmodifiableMapView({
         for (final attribute in attributes)
-          attribute: attribute.value.get(x, y),
+          attribute: attribute.value.get(x, y).clamp(0, 1),
       }),
     );
   }

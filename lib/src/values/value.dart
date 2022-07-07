@@ -5,20 +5,17 @@ abstract class Value {
   /// {@macro value}
   const Value();
 
+  /// Returns a constant value for any given coordinate.
+  factory Value.constant(double value) => _ConstantValue(value);
+
   /// Returns a [Value] that subtracts this value from the [other] value.
-  Value subtract(Object other) {
-    if (other is Value) {
-      return _SubtractedValue(this, other);
-    }
-    return this;
+  Value subtract(Value other) {
+    return _SubtractedValue(this, other);
   }
 
   /// Returns a [Value] that adds this value to the [other] value.
-  Value add(Object other) {
-    if (other is Value) {
-      return _AdditionValue(this, other);
-    }
-    return this;
+  Value add(Value other) {
+    return _AdditionValue(this, other);
   }
 
   /// Returns the value at the given [x] and [y] coordinates.
@@ -43,4 +40,13 @@ class _SubtractedValue extends Value {
 
   @override
   double get(int x, int y) => a.get(x, y) - b.get(x, y);
+}
+
+class _ConstantValue extends Value {
+  const _ConstantValue(this.value);
+
+  final double value;
+
+  @override
+  double get(int x, int y) => value;
 }

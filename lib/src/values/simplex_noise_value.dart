@@ -1,5 +1,5 @@
 import 'package:habitat/habitat.dart';
-import 'package:habitat/src/noise/noise.dart';
+import 'package:habitat/src/noises/noises.dart';
 
 /// {@template simplex_noise_value}
 /// A [Value] class that returns a value based on a Simplex noise generator.
@@ -22,7 +22,7 @@ class SimplexNoiseValue extends Value {
 
   @override
   double get(int x, int y) {
-    final noise = _noise.getSum(x.toDouble(), y.toDouble());
+    final noise = _noise.noise2d(x.toDouble(), y.toDouble());
     return noise / 2 + 0.5; // Rescale from -1.0:+1.0 to 0.0:1.0
   }
 }

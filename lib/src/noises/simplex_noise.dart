@@ -26,7 +26,7 @@ class SimplexNoise {
   final double persistance;
 
   /// Generates a noise value between 0 and 1.
-  double getSum(double x, double y) {
+  double noise2d(double x, double y) {
     var amplitude = 1.0;
     var frequency = this.frequency;
     var noiseSum = 0.0;

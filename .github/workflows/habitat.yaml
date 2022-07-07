@@ -19,9 +19,9 @@ on:
       - pubspec.yaml
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: dart-lang/setup-dart@v1
@@ -34,20 +34,6 @@ jobs:
 
       - name: Analyze
         run: dart analyze --fatal-infos --fatal-warnings lib test
-
-      - name: Ensure Build
-        run: dart test --run-skipped -t pull-request-only
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: dart-lang/setup-dart@v1
-
-      - name: Install Dependencies
-        run: dart pub get
 
       - name: Run Tests
         run: |

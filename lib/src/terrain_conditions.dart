@@ -22,6 +22,13 @@ class TerrainConditions {
     return attribute.range.contains(value);
   }
 
+  /// Get the value of the attribute.
+  double? attribute<T extends Attribute>() {
+    final keys = _attributeValueMap.keys.whereType<T>();
+    if (keys.isEmpty) return null;
+    return _attributeValueMap[keys.first];
+  }
+
   @override
   bool operator ==(Object other) {
     if (other is TerrainConditions) {

@@ -4,10 +4,8 @@ import 'package:habitat/habitat.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Range', () {
-    test('can be instantiated', () {
-      expect(Range(), isNotNull);
-    });
+  group('$Range', () {
+    test('can be instantiated', () => expect(Range(), isNotNull));
 
     test('contains', () {
       final range = Range(min: 0.25, max: 0.75);

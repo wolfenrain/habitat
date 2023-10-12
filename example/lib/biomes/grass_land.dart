@@ -2,13 +2,13 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class GrassLand extends Biome {
-  GrassLand() : super(name: 'grass_land');
+  const GrassLand() : super(name: 'grass_land');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(min: 0.3, max: 0.65),
   );
 
-  final _moisture = const BiomeAttribute<Moisture>(
+  static const _moisture = BiomeAttribute<Moisture>(
     range: Range(max: 0.6),
   );
 

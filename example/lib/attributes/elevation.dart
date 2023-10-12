@@ -3,23 +3,24 @@ import 'package:flame/extensions.dart';
 import 'package:habitat/habitat.dart';
 
 class Elevation extends Attribute {
-  Elevation({Value? value})
-      : super(
-          name: 'elevation',
-          value: value ??
-              SimplexNoiseValue(octaves: 32).subtract(
-                SquareGradientValue(size: Vector2.all(256)),
-              ),
+  Elevation(Seed seed)
+      : this._(
+          value: NoiseValue.perlin(seed: Seed.crc32(seed.generate())) -
+              -(RadialGradientValue(size: Vector2.all(256)) -
+                  const Value.constant(0.05)) +
+              (RadialGradientValue(size: Vector2.all(256)) -
+                  const Value.constant(0.05)),
         );
+
+  Elevation._({required super.value}) : super(name: 'elevation');
 }
 
 class ElevationInfinite extends Elevation {
-  ElevationInfinite()
-      : super(
-          value: SimplexNoiseValue(octaves: 32).subtract(
-            ScatterValue(scatter: 256).on(
-              SquareGradientValue(size: Vector2.all(256)),
-            ),
-          ),
+  ElevationInfinite(Seed seed)
+      : super._(
+          value: NoiseValue.perlin(seed: Seed.crc32(seed.generate())) -
+              ScatterValue(scatter: 256).on(
+                -RadialGradientValue(size: Vector2.all(256)),
+              ),
         );
 }

@@ -2,9 +2,9 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class MountainTop extends Biome {
-  MountainTop() : super(name: 'mountain_top');
+  const MountainTop() : super(name: 'mountain_top');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(min: 0.8),
   );
 

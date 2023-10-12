@@ -2,9 +2,9 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class Beach extends Biome {
-  Beach() : super(name: 'beach');
+  const Beach() : super(name: 'beach');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(min: 0.2, max: 0.25),
   );
 

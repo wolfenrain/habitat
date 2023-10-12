@@ -2,9 +2,9 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class Dune extends Biome {
-  Dune() : super(name: 'dune');
+  const Dune() : super(name: 'dune');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(min: 0.25, max: 0.3),
   );
 

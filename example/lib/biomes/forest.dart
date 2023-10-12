@@ -2,13 +2,13 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class Forest extends Biome {
-  Forest() : super(name: 'forest');
+  const Forest() : super(name: 'forest');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(min: 0.3, max: 0.65),
   );
 
-  final _moisture = const BiomeAttribute<Moisture>(
+  static const _moisture = BiomeAttribute<Moisture>(
     range: Range(min: 0.6),
   );
 

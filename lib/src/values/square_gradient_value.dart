@@ -25,6 +25,6 @@ class SquareGradientValue extends Value {
 
     final xValue = (wrappedX * 2 - _size.x).abs() / _size.x;
     final yValue = (wrappedY * 2 - _size.y).abs() / _size.y;
-    return max(xValue, yValue) - _density;
+    return (1 - max(xValue, yValue)) - _density;
   }
 }

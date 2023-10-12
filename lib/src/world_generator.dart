@@ -5,7 +5,7 @@ import 'package:habitat/habitat.dart';
 /// {@template world_generator}
 /// Procedurally generates a world based on a set of [attributes] and [biomes].
 /// {@endtemplate}
-class WorldGenerator {
+class WorldGenerator<T extends Biome> {
   /// {@macro world_generator}
   const WorldGenerator({
     required this.attributes,
@@ -17,10 +17,10 @@ class WorldGenerator {
   final Set<Attribute> attributes;
 
   /// The biomes that are available for the world.
-  final Set<Biome> biomes;
+  final Set<T> biomes;
 
   /// The biome to use when no biome is found for a coordinate.
-  final Biome? fallbackBiome;
+  final T? fallbackBiome;
 
   /// Returns the conditions for the given [x] and [y] coordinates.
   TerrainConditions getConditions(int x, int y) {
@@ -37,7 +37,7 @@ class WorldGenerator {
   ///
   /// If no biome is found and [fallbackBiome] is not null, it will return
   /// [fallbackBiome] otherwise it will throw an [Exception].
-  Biome getBiome(int x, int y) {
+  T getBiome(int x, int y) {
     final conditions = getConditions(x, y);
 
     return biomes.firstWhere(

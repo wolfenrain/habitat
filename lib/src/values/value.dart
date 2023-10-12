@@ -6,40 +6,51 @@ abstract class Value {
   const Value();
 
   /// Returns a constant value for any given coordinate.
-  factory Value.constant(double value) => _ConstantValue(value);
+  const factory Value.constant(double value) = _ConstantValue.new;
 
-  /// Returns a [Value] that subtracts this value from the [other] value.
-  Value subtract(Value other) {
-    return _SubtractedValue(this, other);
-  }
+  /// Add [other] to the current value.
+  Value operator +(Value other) => _Operation(this, other, (a, b) => a + b);
 
-  /// Returns a [Value] that adds this value to the [other] value.
-  Value add(Value other) {
-    return _AdditionValue(this, other);
-  }
+  /// Subtract [other] to the current value.
+  Value operator -(Value other) => _Operation(this, other, (a, b) => a - b);
+
+  /// Multiply the current value by [other].
+  Value operator *(Value other) => _Operation(this, other, (a, b) => a * b);
+
+  /// Divide the current value by [other].
+  Value operator /(Value other) => _Operation(this, other, (a, b) => a / b);
+
+  /// Divide the current value by [other] and round it.
+  Value operator ~/(Value other) =>
+      _Operation(this, other, (a, b) => (a ~/ b).toDouble());
+
+  /// Invert the value.
+  Value operator -() => _Inverted(this);
 
   /// Returns the value at the given [x] and [y] coordinates.
   double get(int x, int y);
 }
 
-class _AdditionValue extends Value {
-  const _AdditionValue(this.a, this.b);
+class _Inverted extends Value {
+  const _Inverted(this.value);
 
-  final Value a;
-  final Value b;
+  final Value value;
 
   @override
-  double get(int x, int y) => a.get(x, y) + b.get(x, y);
+  double get(int x, int y) => 1 - value.get(x, y);
 }
 
-class _SubtractedValue extends Value {
-  const _SubtractedValue(this.a, this.b);
+class _Operation extends Value {
+  const _Operation(this.a, this.b, this.operation);
 
   final Value a;
+
   final Value b;
 
+  final double Function(double, double) operation;
+
   @override
-  double get(int x, int y) => a.get(x, y) - b.get(x, y);
+  double get(int x, int y) => operation(a.get(x, y), b.get(x, y));
 }
 
 class _ConstantValue extends Value {

@@ -2,9 +2,9 @@ import 'package:example/attributes/attributes.dart';
 import 'package:habitat/habitat.dart';
 
 class DeepOcean extends Biome {
-  DeepOcean() : super(name: 'deep_ocean');
+  const DeepOcean() : super(name: 'deep_ocean');
 
-  final _elevation = const BiomeAttribute<Elevation>(
+  static const _elevation = BiomeAttribute<Elevation>(
     range: Range(max: 0.1),
   );
 

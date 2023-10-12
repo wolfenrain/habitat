@@ -7,9 +7,7 @@ import 'package:test/test.dart';
 
 class _TestValue extends Value {
   @override
-  double get(int x, int y) {
-    return (((x + y) - 10) / (20 - 10)) / 2 + 0.5;
-  }
+  double get(int x, int y) => (((x + y) - 10) / (20 - 10)) / 2 + 0.5;
 }
 
 class _TestAttribute extends Attribute {
@@ -41,23 +39,23 @@ class _TestBBiome extends Biome {
 }
 
 class _TestCBiome extends Biome {
-  _TestCBiome() : super(name: 'test_c');
+  const _TestCBiome() : super(name: 'test_c');
 
   @override
   bool isViable(TerrainConditions conditions) => false;
 }
 
 void main() {
-  group('WorldGenerator', () {
+  group('$WorldGenerator', () {
     test('can be instantiated', () {
-      expect(WorldGenerator(attributes: {}, biomes: {}), isNotNull);
+      expect(WorldGenerator(attributes: {}, biomes: <Biome>{}), isNotNull);
     });
 
     test('returns the terrain conditions for the given coordinates', () {
       final testAttribute = _TestAttribute();
       final generator = WorldGenerator(
         attributes: {testAttribute},
-        biomes: {},
+        biomes: <Biome>{},
       );
 
       expect(

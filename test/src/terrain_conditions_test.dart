@@ -6,15 +6,11 @@ import 'package:habitat/habitat.dart';
 import 'package:test/test.dart';
 
 class _TestAttribute extends Attribute {
-  _TestAttribute()
-      : super(
-          name: 'test',
-          value: Value.constant(0.5),
-        );
+  _TestAttribute() : super(name: 'test', value: Value.constant(0.5));
 }
 
 void main() {
-  group('TerrainConditions', () {
+  group('$TerrainConditions', () {
     test('can be instantiated', () {
       expect(TerrainConditions(UnmodifiableMapView({})), isNotNull);
     });
@@ -46,6 +42,15 @@ void main() {
         );
         expect(conditions.satisfies(biomeAttribute), isFalse);
       });
+    });
+
+    test('get attribute value', () {
+      final attribute = _TestAttribute();
+      final conditions = TerrainConditions(
+        UnmodifiableMapView({attribute: 0.5}),
+      );
+
+      expect(conditions.attribute<_TestAttribute>(), equals(0.5));
     });
 
     test('are equal', () {

@@ -1,34 +1,38 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:binarize/binarize.dart';
 import 'package:example/attributes/attributes.dart';
 import 'package:example/biomes/biomes.dart';
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:habitat/habitat.dart';
 
+const seed = Seed();
+
 class HabitatExample extends FlameGame {
   @override
   Future<void> onLoad() async {
-    camera.viewport = FixedResolutionViewport(_size);
+    camera.viewport = FixedSizeViewport(_size.x, _size.y);
 
     await add(
       WorldComponent(
         WorldGenerator(
-          attributes: {ElevationInfinite(), Moisture()},
+          attributes: {Elevation(seed), Moisture()},
           biomes: {
-            DeepOcean(),
-            Ocean(),
-            Beach(),
-            Dune(),
-            GrassLand(),
-            Forest(),
-            LowerMountain(),
-            HigherMountain(),
-            MountainTop(),
+            const DeepOcean(),
+            const Ocean(),
+            const Beach(),
+            const Dune(),
+            const GrassLand(),
+            const Forest(),
+            const LowerMountain(),
+            const HigherMountain(),
+            const MountainTop(),
           },
-          fallbackBiome: DeepOcean(),
+          fallbackBiome: const DeepOcean(),
         ),
       ),
     );
@@ -41,7 +45,7 @@ class HabitatExample extends FlameGame {
 }
 
 class WorldComponent extends Component {
-  WorldComponent(this.generator, {this.move = true});
+  WorldComponent(this.generator, {this.move = false});
 
   final WorldGenerator generator;
 
@@ -51,32 +55,24 @@ class WorldComponent extends Component {
   final Vector2 offset = Vector2.zero();
 
   @override
-  Future<void>? onLoad() {
-    generateDataImage();
-    return null;
-  }
+  void onLoad() => generateDataImage();
 
   @override
   void render(Canvas canvas) {
-    if (dataImage == null) {
-      return;
-    }
+    if (dataImage == null) return;
     canvas.drawImage(dataImage!, Offset.zero, Paint());
     super.render(canvas);
   }
 
-  bool generating = false;
-
   @override
   void update(double dt) {
-    if (move && !generating) {
-      offset.add(Vector2.all(10) * dt);
-      generateDataImage();
-    }
+    if (!move || dataImage == null) return;
+    offset.add(Vector2.all(10) * dt);
+    generateDataImage();
   }
 
   void generateDataImage() {
-    generating = true;
+    dataImage = null;
     final payload = Payload.write();
 
     for (var y = 0; y < _size.y; y++) {
@@ -100,38 +96,25 @@ class WorldComponent extends Component {
       _size.x.toInt(),
       _size.y.toInt(),
       ui.PixelFormat.rgba8888,
-      (image) {
-        dataImage = image;
-        generating = false;
-      },
+      (image) => dataImage = image,
     );
   }
 }
 
 extension on Biome {
   Color get color {
-    switch (name) {
-      case 'ocean':
-        return const Color(0xFF0952c6);
-      case 'deep_ocean':
-        return const Color(0xFF003eb2);
-      case 'beach':
-        return const Color(0xFFa49463);
-      case 'dune':
-        return const Color(0xFF807441);
-      case 'grass_land':
-        return const Color(0xFF4CAF50);
-      case 'forest':
-        return const Color(0xFF3c6114);
-      case 'lower_mountain':
-        return const Color(0xFF616161);
-      case 'higher_mountain':
-        return const Color(0xFF9E9E9E);
-      case 'mountain_top':
-        return const Color(0xFFFFFFFF);
-      default:
-        throw Exception('Unknown biome $name');
-    }
+    return switch (this) {
+      Ocean() => const Color(0xFF0952c6),
+      DeepOcean() => const Color(0xFF003eb2),
+      Beach() => const Color(0xFFa49463),
+      Dune() => const Color(0xFF807441),
+      GrassLand() => const Color(0xFF4CAF50),
+      Forest() => const Color(0xFF3c6114),
+      LowerMountain() => const Color(0xFF616161),
+      HigherMountain() => const Color(0xFF9E9E9E),
+      MountainTop() => const Color(0xFFFFFFFF),
+      _ => throw Exception('Unknown biome $name'),
+    };
   }
 }
 
@@ -153,19 +136,22 @@ void main() {
                   onPressed: () {
                     game.replace(
                       WorldGenerator(
-                        attributes: {Elevation(), Moisture()},
-                        biomes: {
-                          DeepOcean(),
-                          Ocean(),
-                          Beach(),
-                          Dune(),
-                          GrassLand(),
-                          Forest(),
-                          LowerMountain(),
-                          HigherMountain(),
-                          MountainTop(),
+                        attributes: {
+                          Elevation(seed),
+                          Moisture(),
                         },
-                        fallbackBiome: DeepOcean(),
+                        biomes: {
+                          const DeepOcean(),
+                          const Ocean(),
+                          const Beach(),
+                          const Dune(),
+                          const GrassLand(),
+                          const Forest(),
+                          const LowerMountain(),
+                          const HigherMountain(),
+                          const MountainTop(),
+                        },
+                        fallbackBiome: const DeepOcean(),
                       ),
                     );
                   },
@@ -178,19 +164,22 @@ void main() {
                   onPressed: () {
                     game.replace(
                       WorldGenerator(
-                        attributes: {ElevationInfinite(), Moisture()},
-                        biomes: {
-                          DeepOcean(),
-                          Ocean(),
-                          Beach(),
-                          Dune(),
-                          GrassLand(),
-                          Forest(),
-                          LowerMountain(),
-                          HigherMountain(),
-                          MountainTop(),
+                        attributes: {
+                          ElevationInfinite(seed),
+                          Moisture(),
                         },
-                        fallbackBiome: DeepOcean(),
+                        biomes: {
+                          const DeepOcean(),
+                          const Ocean(),
+                          const Beach(),
+                          const Dune(),
+                          const GrassLand(),
+                          const Forest(),
+                          const LowerMountain(),
+                          const HigherMountain(),
+                          const MountainTop(),
+                        },
+                        fallbackBiome: const DeepOcean(),
                       ),
                       move: true,
                     );

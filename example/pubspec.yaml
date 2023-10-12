@@ -4,11 +4,11 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.3 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  binarize: ^1.0.1
-  flame: ^1.2.0
+  binarize: ^1.5.0
+  flame: ^1.10.0
   flutter:
     sdk: flutter
   habitat:
@@ -17,4 +17,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^3.0.1
+  very_good_analysis: ^5.1.0

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:habitat/habitat.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 /// {@template radial_gradient_value}
 /// A [Value] class that returns a value based on a radial gradient.
@@ -9,20 +8,20 @@ import 'package:vector_math/vector_math_64.dart';
 class RadialGradientValue extends Value {
   /// {@macro radial_gradient_value}
   const RadialGradientValue({
-    required Vector2 size,
-    Vector2? offset,
+    required Point size,
+    Point? offset,
     double density = 0,
   })  : _size = size,
         _offset = offset,
         _density = density;
 
-  final Vector2 _size;
+  final Point _size;
 
-  final Vector2? _offset;
+  final Point? _offset;
 
   final double _density;
 
-  double _distance(double x1, double y1, double x2, double y2) {
+  double _distance(num x1, num y1, num x2, num y2) {
     return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
   }
 

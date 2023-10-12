@@ -1,10 +1,11 @@
+// ignore_for_file: prefer_const_declarations
+
 import 'package:habitat/habitat.dart';
 import 'package:test/test.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 void main() {
   group('$SquareGradientValue', () {
-    final size = Vector2.all(20);
+    final size = (x: 20, y: 20);
 
     test('is a square gradient that gets lighter closer to the middle', () {
       expect(SquareGradientValue(size: size).get(0, 0), equals(0));
@@ -30,7 +31,7 @@ void main() {
         equals(0.5),
       );
       expect(
-        SquareGradientValue(size: size).get(size.x.toInt(), size.y.toInt()),
+        SquareGradientValue(size: size).get(size.x, size.y),
         equals(0),
       );
     });

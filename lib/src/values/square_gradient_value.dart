@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:habitat/habitat.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 /// {@template square_gradient_value}
 /// A [Value] class that returns a value based on a square gradient.
@@ -9,12 +8,12 @@ import 'package:vector_math/vector_math_64.dart';
 class SquareGradientValue extends Value {
   /// {@macro square_gradient_value}
   const SquareGradientValue({
-    required Vector2 size,
+    required Point size,
     double density = 0,
   })  : _size = size,
         _density = density;
 
-  final Vector2 _size;
+  final Point _size;
 
   final double _density;
 

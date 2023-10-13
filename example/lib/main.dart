@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:binarize/binarize.dart';
 import 'package:example/attributes/attributes.dart';
 import 'package:example/biomes/biomes.dart';
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -13,34 +11,38 @@ import 'package:habitat/habitat.dart';
 const seed = Seed();
 
 class HabitatExample extends FlameGame {
-  @override
-  Future<void> onLoad() async {
-    camera.viewport = FixedSizeViewport(_size.x, _size.y);
-
-    await add(
-      WorldComponent(
-        WorldGenerator(
-          attributes: {Elevation(seed), Moisture()},
-          biomes: {
-            const DeepOcean(),
-            const Ocean(),
-            const Beach(),
-            const Dune(),
-            const GrassLand(),
-            const Forest(),
-            const LowerMountain(),
-            const HigherMountain(),
-            const MountainTop(),
-          },
-          fallbackBiome: const DeepOcean(),
-        ),
-      ),
-    );
-  }
+  HabitatExample()
+      : super(
+          camera: CameraComponent.withFixedResolution(
+            width: _size.x,
+            height: _size.y,
+            world: World(
+              children: [
+                WorldComponent(
+                  WorldGenerator(
+                    attributes: {Elevation(seed), Moisture()},
+                    biomes: {
+                      const DeepOcean(),
+                      const Ocean(),
+                      const Beach(),
+                      const Dune(),
+                      const GrassLand(),
+                      const Forest(),
+                      const LowerMountain(),
+                      const HigherMountain(),
+                      const MountainTop(),
+                    },
+                    fallbackBiome: const DeepOcean(),
+                  ),
+                ),
+              ],
+            ),
+          )..follow(PositionComponent(position: _size / 2)),
+        );
 
   void replace(WorldGenerator generator, {bool move = false}) {
-    firstChild<WorldComponent>()?.removeFromParent();
-    add(WorldComponent(generator, move: move));
+    world.firstChild<WorldComponent>()?.removeFromParent();
+    world.add(WorldComponent(generator, move: move));
   }
 }
 
@@ -102,20 +104,18 @@ class WorldComponent extends Component {
 }
 
 extension on Biome {
-  Color get color {
-    return switch (this) {
-      Ocean() => const Color(0xFF0952c6),
-      DeepOcean() => const Color(0xFF003eb2),
-      Beach() => const Color(0xFFa49463),
-      Dune() => const Color(0xFF807441),
-      GrassLand() => const Color(0xFF4CAF50),
-      Forest() => const Color(0xFF3c6114),
-      LowerMountain() => const Color(0xFF616161),
-      HigherMountain() => const Color(0xFF9E9E9E),
-      MountainTop() => const Color(0xFFFFFFFF),
-      _ => throw Exception('Unknown biome $name'),
-    };
-  }
+  Color get color => switch (this) {
+        Ocean() => const Color(0xFF0952c6),
+        DeepOcean() => const Color(0xFF003eb2),
+        Beach() => const Color(0xFFa49463),
+        Dune() => const Color(0xFF807441),
+        GrassLand() => const Color(0xFF4CAF50),
+        Forest() => const Color(0xFF3c6114),
+        LowerMountain() => const Color(0xFF616161),
+        HigherMountain() => const Color(0xFF9E9E9E),
+        MountainTop() => const Color(0xFFFFFFFF),
+        _ => throw Exception('Unknown biome $name'),
+      };
 }
 
 final _size = Vector2.all(256);

@@ -5,10 +5,7 @@ class Elevation extends Attribute {
   Elevation(Seed seed)
       : this._(
           value: NoiseValue.perlin(seed: Seed.crc32(seed.generate())) -
-              -(const RadialGradientValue(size: (x: 256, y: 256)) -
-                  const Value.constant(0.05)) +
-              (const RadialGradientValue(size: (x: 256, y: 256)) -
-                  const Value.constant(0.05)),
+              -(const RadialGradientValue(size: (x: 256, y: 256))),
         );
 
   Elevation._({required super.value}) : super(name: 'elevation');

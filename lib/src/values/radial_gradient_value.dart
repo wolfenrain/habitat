@@ -21,8 +21,8 @@ class RadialGradientValue extends Value {
 
   final double _density;
 
-  double _distance(num x1, num y1, num x2, num y2) {
-    return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+  double _euclideanDistance(num x1, num y1, num x2, num y2) {
+    return sqrt(pow(x1 - x2, 2).abs() + pow(y1 - y2, 2).abs());
   }
 
   @override
@@ -34,8 +34,12 @@ class RadialGradientValue extends Value {
     }
 
     final center = _size * 0.5;
-    final d = _distance(center.x, center.y, wrappedX, wrappedY) *
-        ((max(center.x, center.y) / max(_size.x, _size.y) + 0.1) * 0.01);
-    return (1 - d) - _density;
+
+    final furthestDistanceFromCentre =
+        _euclideanDistance(0, 0, center.x, center.y);
+
+    final distance = furthestDistanceFromCentre -
+        _euclideanDistance(x, y, center.x, center.y);
+    return distance / max(center.x, center.y) - _density;
   }
 }
